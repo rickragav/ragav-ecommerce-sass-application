@@ -1,0 +1,41 @@
+plugins {
+	id 'java-library'
+}
+
+group = 'com.ragav.ecommerce'
+version = '0.0.1-SNAPSHOT'
+description = 'Shared API Interfaces and DTOs'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Common annotations and validation
+	api 'jakarta.validation:jakarta.validation-api'
+	api 'com.fasterxml.jackson.core:jackson-annotations'
+	
+	// Optional: Spring Web annotations for REST endpoints (without Spring Boot dependency)
+	compileOnly 'org.springframework:spring-web'
+	
+	// Testing
+	testImplementation 'org.junit.jupiter:junit-jupiter'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+// This module doesn't have a main class, so we don't need bootJar task
+// We want to create a plain JAR that other projects can depend on
+jar {
+	enabled = true
+	archiveClassifier = '' // Remove the 'plain' classifier
+}

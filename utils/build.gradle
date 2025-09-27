@@ -1,0 +1,47 @@
+plugins {
+	id 'java-library'
+}
+
+group = 'com.ragav.ecommerce'
+version = '0.0.1-SNAPSHOT'
+description = 'Shared Utility Classes and Helper Functions'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Common utilities
+	api 'org.apache.commons:commons-lang3:3.14.0'
+	api 'org.apache.commons:commons-collections4:4.4'
+	api 'com.fasterxml.jackson.core:jackson-databind'
+	api 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+	
+	// Logging (SLF4J API)
+	api 'org.slf4j:slf4j-api'
+	
+	// Validation
+	api 'jakarta.validation:jakarta.validation-api'
+	
+	// Testing
+	testImplementation 'org.junit.jupiter:junit-jupiter'
+	testImplementation 'org.mockito:mockito-core'
+	testImplementation 'org.assertj:assertj-core'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+// This module doesn't have a main class, so we want to create a plain JAR
+jar {
+	enabled = true
+	archiveClassifier = '' // Remove the 'plain' classifier
+}

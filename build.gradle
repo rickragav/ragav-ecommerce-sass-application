@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.4' apply false
+    id 'io.spring.dependency-management' version '1.1.6' apply false
+}
+
+allprojects {
+    group = 'com.ragav.ecommerce'
+    version = '1.0.0'
+    
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    
+    // Only apply Spring Boot plugins to service modules, not the shared library modules
+    if (project.name != 'api' && project.name != 'utils') {
+        apply plugin: 'org.springframework.boot'
+        apply plugin: 'io.spring.dependency-management'
+    }
+    
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    
+    // Only add Spring Boot dependencies to service modules
+    if (project.name != 'api' && project.name != 'utils') {
+        dependencies {
+            implementation 'org.springframework.boot:spring-boot-starter'
+            testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        }
+    }
+    
+    test {
+        useJUnitPlatform()
+    }
+}
+
+// Root project tasks - clean task is already provided by base plugin
+
+// Task to build all services
+task buildAll {
+    dependsOn subprojects.collect { it.tasks.named('build') }
+    description = 'Builds all microservices'
+    group = 'build'
+}
+
+// Task to test all services
+task testAll {
+    dependsOn subprojects.collect { it.tasks.named('test') }
+    description = 'Runs tests for all microservices'
+    group = 'verification'
+}
+
+// Task to clean all services
+task cleanAll {
+    dependsOn subprojects.collect { it.tasks.named('clean') }
+    description = 'Cleans all microservices'
+    group = 'build'
+}

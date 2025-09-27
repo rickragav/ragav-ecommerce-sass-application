@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="17" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ragav-ecommerce-sass-application.product-service" options="-parameters" />
+      <module name="ragav-ecommerce-sass-application.product-service.main" options="-parameters" />
+      <module name="ragav-ecommerce-sass-application.product-service.test" options="-parameters" />
+      <module name="ragav-ecommerce-sass-application.recommendation-service" options="-parameters" />
+      <module name="ragav-ecommerce-sass-application.recommendation-service.main" options="-parameters" />
+      <module name="ragav-ecommerce-sass-application.recommendation-service.test" options="-parameters" />
+      <module name="ragav-ecommerce-sass-application.review-service" options="-parameters" />
+      <module name="ragav-ecommerce-sass-application.review-service.main" options="-parameters" />
+      <module name="ragav-ecommerce-sass-application.review-service.test" options="-parameters" />
+    </option>
+  </component>
+</project>
