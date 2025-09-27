@@ -2,6 +2,32 @@
 
 A microservice-based e-commerce platform built with Spring Boot 3.3.4 and Gradle, designed as a multi-tenant SaaS solution with integrated book recommendation capabilities.
 
+## Modules
+- **api**: Shared interfaces and DTOs for service communication.
+- **utils**: Common utility classes and helpers.
+- **product-service**: Product management microservice.
+- **recommendation-service**: Recommendation engine microservice.
+- **review-service**: Review and rating microservice.
+
+## Build & Run
+- Build all modules: `./gradlew buildAll`
+- Test all modules: `./gradlew testAll`
+- Clean all modules: `./gradlew cleanAll`
+
+## Dependency Management
+- All modules use Spring Boot plugin for automatic dependency management.
+- Library modules (`api`, `utils`) do not produce executable JARs.
+- Java 17 is required.
+
+## Recent Changes
+- Fixed Spring Boot BOM version in library modules.
+- Disabled bootJar for `api` and `utils`.
+- All modules build successfully with `./gradlew buildAll`.
+
+---
+
+See each module's README for details.
+
 ## Current Architecture
 
 ### 🏗️ Microservices Architecture

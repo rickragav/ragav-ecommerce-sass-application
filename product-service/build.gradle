@@ -4,7 +4,7 @@ plugins {
 	id 'io.spring.dependency-management'
 }
 
-group = 'com.ragav.ecommerce'
+group = 'com.ragav.ecommerce.core.product'
 version = '0.0.1-SNAPSHOT'
 description = 'Product Service'
 

@@ -1,41 +1,49 @@
 plugins {
-	id 'java-library'
+    id 'java'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
 }
 
-group = 'com.ragav.ecommerce'
-version = '0.0.1-SNAPSHOT'
-description = 'Shared API Interfaces and DTOs'
+group = 'com.ragav.ecommerce.api'
+version = '1.0.0-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	// Common annotations and validation
-	api 'jakarta.validation:jakarta.validation-api'
-	api 'com.fasterxml.jackson.core:jackson-annotations'
-	
-	// Optional: Spring Web annotations for REST endpoints (without Spring Boot dependency)
-	compileOnly 'org.springframework:spring-web'
-	
-	// Testing
-	testImplementation 'org.junit.jupiter:junit-jupiter'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Common annotations and validation
+    implementation 'jakarta.validation:jakarta.validation-api'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations'
+    
+    // Optional: Spring Web annotations for REST endpoints
+    compileOnly 'org.springframework:spring-web'
+
+    // Use Spring Boot BOM for dependency management
+    implementation platform("org.springframework.boot:spring-boot-dependencies")    
+    
+    
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
+
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
-// This module doesn't have a main class, so we don't need bootJar task
-// We want to create a plain JAR that other projects can depend on
-jar {
-	enabled = true
-	archiveClassifier = '' // Remove the 'plain' classifier
+// Disable bootJar for library module
+tasks.named('bootJar') {
+    enabled = false
 }
+tasks.named('jar') {
+    enabled = true
+}
+

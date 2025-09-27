@@ -2,6 +2,26 @@
 
 This module contains shared interfaces, DTOs, and contracts used by all microservices.
 
+## Key Features
+- Java 17
+- Uses Spring Boot plugin for dependency management
+- No executable JAR produced (library only)
+- BOM version set to 3.3.4
+
+## Usage
+Add DTOs and interfaces here to be shared across services.
+
+## Build
+This module is built automatically as part of the root project:
+
+```
+./gradlew buildAll
+```
+
+## Recent Changes
+- Fixed BOM version in build.gradle
+- Disabled bootJar for library packaging
+
 ## Structure
 
 ```

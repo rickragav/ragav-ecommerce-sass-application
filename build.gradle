@@ -13,30 +13,24 @@ allprojects {
     }
 }
 
-subprojects {
+// Configure only service modules with Spring Boot (library modules have their own config)
+configure(subprojects.findAll { it.name in ['product-service', 'recommendation-service', 'review-service'] }) {
     apply plugin: 'java'
-    
-    // Only apply Spring Boot plugins to service modules, not the shared library modules
-    if (project.name != 'api' && project.name != 'utils') {
-        apply plugin: 'org.springframework.boot'
-        apply plugin: 'io.spring.dependency-management'
-    }
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
     
     java {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
     
-    // Only add Spring Boot dependencies to service modules
-    if (project.name != 'api' && project.name != 'utils') {
-        dependencies {
-            implementation 'org.springframework.boot:spring-boot-starter'
-            testImplementation 'org.springframework.boot:spring-boot-starter-test'
-        }
-    }
-    
     test {
         useJUnitPlatform()
+    }
+    
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
 }
 
@@ -44,21 +38,27 @@ subprojects {
 
 // Task to build all services
 task buildAll {
-    dependsOn subprojects.collect { it.tasks.named('build') }
     description = 'Builds all microservices'
     group = 'build'
 }
 
-// Task to test all services
+// Task to test all services  
 task testAll {
-    dependsOn subprojects.collect { it.tasks.named('test') }
     description = 'Runs tests for all microservices'
     group = 'verification'
 }
 
 // Task to clean all services
 task cleanAll {
-    dependsOn subprojects.collect { it.tasks.named('clean') }
     description = 'Cleans all microservices'
     group = 'build'
+}
+
+// Configure task dependencies after evaluation
+subprojects {
+    afterEvaluate {
+        rootProject.tasks.buildAll.dependsOn tasks.build
+        rootProject.tasks.testAll.dependsOn tasks.test
+        rootProject.tasks.cleanAll.dependsOn tasks.clean
+    }
 }

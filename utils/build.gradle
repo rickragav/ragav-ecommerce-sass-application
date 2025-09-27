@@ -1,47 +1,51 @@
 plugins {
-	id 'java-library'
+    id 'java'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
 }
 
-group = 'com.ragav.ecommerce'
-version = '0.0.1-SNAPSHOT'
-description = 'Shared Utility Classes and Helper Functions'
+group = 'com.ragav.ecommerce.util'
+version = '1.0.0-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	// Common utilities
-	api 'org.apache.commons:commons-lang3:3.14.0'
-	api 'org.apache.commons:commons-collections4:4.4'
-	api 'com.fasterxml.jackson.core:jackson-databind'
-	api 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-	
-	// Logging (SLF4J API)
-	api 'org.slf4j:slf4j-api'
-	
-	// Validation
-	api 'jakarta.validation:jakarta.validation-api'
-	
-	// Testing
-	testImplementation 'org.junit.jupiter:junit-jupiter'
-	testImplementation 'org.mockito:mockito-core'
-	testImplementation 'org.assertj:assertj-core'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation project(':api')
+
+    // Use Spring Boot BOM for dependency management
+    implementation platform("org.springframework.boot:spring-boot-dependencies:3.3.4")
+
+    // Common utilities (versions managed by Spring Boot BOM where available)
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'org.apache.commons:commons-collections4:4.4'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+    // Spring WebFlux for reactive utilities
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
+
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
-// This module doesn't have a main class, so we want to create a plain JAR
-jar {
-	enabled = true
-	archiveClassifier = '' // Remove the 'plain' classifier
+// Disable bootJar for library module
+tasks.named('bootJar') {
+    enabled = false
 }
+tasks.named('jar') {
+    enabled = true
+}
+
