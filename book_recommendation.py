@@ -694,28 +694,28 @@ class BookRecommendationEDA:
         # Run all analyses
         self.basic_info()
         author_stats = self.analyze_books_for_tenancy()
-        # self.analyze_users()
-        # user_activity, book_popularity = self.analyze_ratings()
-        # author_performance, publisher_stats = self.merge_and_analyze()
-        # tier1, tier2, tier3 = self.tenant_recommendations(author_performance)
-        # summary = self.generate_summary_report()
+        self.analyze_users()
+        user_activity, book_popularity = self.analyze_ratings()
+        author_performance, publisher_stats = self.merge_and_analyze()
+        tier1, tier2, tier3 = self.tenant_recommendations(author_performance)
+        summary = self.generate_summary_report()
 
-        # print(f"\n🎉 ANALYSIS COMPLETE!")
-        # print(f"📁 Generated files:")
-        # print(f"   • author_tenant_analysis.png")
-        # print(f"   • user_analysis.png")
-        # print(f"   • rating_analysis.png")
-        # print(f"   • merged_analysis.png")
+        print(f"\n🎉 ANALYSIS COMPLETE!")
+        print(f"📁 Generated files:")
+        print(f"   • author_tenant_analysis.png")
+        print(f"   • user_analysis.png")
+        print(f"   • rating_analysis.png")
+        print(f"   • merged_analysis.png")
 
-        # return {
-        #     "author_stats": author_stats,
-        #     "user_activity": user_activity,
-        #     "book_popularity": book_popularity,
-        #     "author_performance": author_performance,
-        #     "publisher_stats": publisher_stats,
-        #     "tenant_tiers": {"tier1": tier1, "tier2": tier2, "tier3": tier3},
-        #     "summary": summary,
-        # }
+        return {
+            "author_stats": author_stats,
+            "user_activity": user_activity,
+            "book_popularity": book_popularity,
+            "author_performance": author_performance,
+            "publisher_stats": publisher_stats,
+            "tenant_tiers": {"tier1": tier1, "tier2": tier2, "tier3": tier3},
+            "summary": summary,
+        }
 
 
 # Usage Example

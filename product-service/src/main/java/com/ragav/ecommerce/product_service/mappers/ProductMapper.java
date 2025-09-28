@@ -1,4 +1,4 @@
-package com.ragav.ecommerce.product_service.services;
+package com.ragav.ecommerce.product_service.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -38,13 +38,17 @@ A fully-implemented microservice that manages the product catalog and inventory 
 ```
 src/main/java/com/ragav/ecommerce/product_service/
 ├── ProductServiceApplication.java     # Main application class
-├── config/
-│   └── MongoIndexInitializer.java    # Automatic index creation
+├── controllers/
+│   └── ProductServiceController.java # REST controller (HTTP concerns)
+├── mappers/
+│   └── ProductMapper.java            # MapStruct entity-to-DTO mapping
+├── services/
+│   └── ProductServiceImpl.java       # Business logic implementation
 ├── persistence/
 │   ├── ProductEntity.java            # MongoDB document entity
 │   └── ProductRepository.java        # Spring Data repository
-└── services/
-    └── ProductServiceImpl.java       # Business logic & REST controller
+└── config/
+    └── MongoIndexInitializer.java    # Automatic index creation
 ```
 
 ### **Data Model**
@@ -167,6 +171,8 @@ The service provides detailed error responses with appropriate HTTP status codes
 - ✅ **Complete CRUD Implementation**: Full product management capabilities
 - ✅ **MongoDB Integration**: Document persistence with automatic indexing
 - ✅ **Docker Containerization**: Production-ready deployment
-- ✅ **Comprehensive Testing**: 18-scenario test suite with edge cases
+- ✅ **Comprehensive Testing**: 12-scenario test suite with integration testing
 - ✅ **Validation Framework**: Business logic validation with error handling
 - ✅ **Configuration Management**: Profile-based configuration system
+- ✅ **Package Reorganization**: Separated controllers, services, mappers, and persistence layers
+- ✅ **Clean Architecture**: Clear separation of HTTP concerns from business logic

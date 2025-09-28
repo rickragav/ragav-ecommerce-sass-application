@@ -2,18 +2,28 @@ package com.ragav.ecommerce.product_service.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import com.ragav.ecommerce.api.core.product.Product;
 import com.ragav.ecommerce.api.core.product.ProductService;
 import com.ragav.ecommerce.api.exceptions.BadRequestException;
 import com.ragav.ecommerce.api.exceptions.InvalidInputException;
 import com.ragav.ecommerce.api.exceptions.NotFoundException;
+import com.ragav.ecommerce.product_service.mappers.ProductMapper;
 import com.ragav.ecommerce.product_service.persistence.ProductRepository;
 import com.ragav.ecommerce.utils.http.ServiceUtil;
 
-@RestController
+/**
+ * Service implementation for Product operations.
+ * 
+ * Handles business logic for product management including validation,
+ * persistence operations, and error handling. Supports multi-tenant
+ * isolation and MongoDB document storage.
+ * 
+ * This service is called by ProductServiceController to handle the
+ * actual business operations while the controller handles HTTP concerns.
+ */
+@Service
 public class ProductServiceImpl implements ProductService {
     private static final Logger LOG = LoggerFactory.getLogger(ProductServiceImpl.class);
 
@@ -21,8 +31,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository repository;
     private final ServiceUtil serviceUtil;
 
-    @Autowired
-    ProductServiceImpl(ProductMapper mapper, ProductRepository repository, ServiceUtil serviceUtil) {
+    public ProductServiceImpl(ProductMapper mapper, ProductRepository repository, ServiceUtil serviceUtil) {
         this.mapper = mapper;
         this.repository = repository;
         this.serviceUtil = serviceUtil;

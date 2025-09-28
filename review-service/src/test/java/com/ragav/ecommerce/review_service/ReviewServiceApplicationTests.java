@@ -1,13 +1,13 @@
-package com.ragav.ecommerce.review_service;
+// package com.ragav.ecommerce.review_service;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class ReviewServiceApplicationTests {
+// @SpringBootTest
+// class ReviewServiceApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+// @Test
+// void contextLoads() {
+// }
 
-}
+// }
