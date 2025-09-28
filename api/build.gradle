@@ -28,7 +28,10 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations'
     
     // Optional: Spring Web annotations for REST endpoints
-    compileOnly 'org.springframework:spring-web'
+    compileOnly 'org.springframework:spring-webflux'
+
+    // Springdoc OpenAPI for API documentation
+    implementation 'org.springdoc:springdoc-openapi-starter-common:2.0.2'
 
     // Use Spring Boot BOM for dependency management
     implementation platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")

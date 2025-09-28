@@ -2,14 +2,12 @@ package com.ragav.ecommerce.product_service.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ragav.ecommerce.api.core.product.Product;
+import com.ragav.ecommerce.api.core.product.ProductService;
 import com.ragav.ecommerce.product_service.services.ProductServiceImpl;
 
 /**
@@ -28,7 +26,7 @@ import com.ragav.ecommerce.product_service.services.ProductServiceImpl;
  * for 278,858+ users and 271,360+ products with MongoDB persistence.
  */
 @RestController
-public class ProductServiceController {
+public class ProductServiceController implements ProductService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductServiceController.class);
 
@@ -47,7 +45,7 @@ public class ProductServiceController {
      * @param body Product data including productId, name, weight, etc.
      * @return Created product with service address populated
      */
-    @PostMapping(value = "/product", consumes = "application/json", produces = "application/json")
+    @Override
     public Product createProduct(@RequestBody Product body) {
         LOG.debug("ProductServiceController.createProduct: {}", body);
         return productService.createProduct(body);
@@ -62,7 +60,7 @@ public class ProductServiceController {
      * @param productId Unique identifier of the product
      * @return Product with the specified productId
      */
-    @GetMapping(value = "/product/{productId}", produces = "application/json")
+    @Override
     public Product getProduct(@PathVariable int productId) {
         LOG.debug("ProductServiceController.getProduct: productId={}", productId);
         return productService.getProduct(productId);
@@ -76,7 +74,7 @@ public class ProductServiceController {
      * 
      * @param productId ID of the product to delete
      */
-    @DeleteMapping(value = "/product/{productId}")
+    @Override
     public void deleteProduct(@PathVariable int productId) {
         LOG.debug("ProductServiceController.deleteProduct: productId={}", productId);
         productService.deleteProduct(productId);

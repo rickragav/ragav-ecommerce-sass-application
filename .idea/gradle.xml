@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/api" />
+            <option value="$PROJECT_DIR$/product-composite-service" />
             <option value="$PROJECT_DIR$/product-service" />
             <option value="$PROJECT_DIR$/recommendation-service" />
             <option value="$PROJECT_DIR$/review-service" />

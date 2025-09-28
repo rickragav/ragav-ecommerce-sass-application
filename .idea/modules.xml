@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/product-composite-service/ragav-ecommerce-sass-application.product-composite-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/product-composite-service/ragav-ecommerce-sass-application.product-composite-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/product-composite-service/ragav-ecommerce-sass-application.product-composite-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/product-composite-service/ragav-ecommerce-sass-application.product-composite-service.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/product-service/ragav-ecommerce-sass-application.product-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/product-service/ragav-ecommerce-sass-application.product-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/product-service/ragav-ecommerce-sass-application.product-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/product-service/ragav-ecommerce-sass-application.product-service.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/review-service/ragav-ecommerce-sass-application.review-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/review-service/ragav-ecommerce-sass-application.review-service.main.iml" />

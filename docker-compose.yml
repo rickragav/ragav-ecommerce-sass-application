@@ -30,13 +30,13 @@ services:
       mysql:
         condition: service_healthy
 
-  # product-composite:
-  #   build: microservices/product-composite-service
-  #   mem_limit: 512m
-  #   ports:
-  #     - "8080:8080"
-  #   environment:
-  #     - SPRING_PROFILES_ACTIVE=docker
+  product-composite:
+    build: product-composite-service
+    mem_limit: 512m
+    ports:
+      - "8082:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
 
   mongodb:
     image: mongo:6.0.4

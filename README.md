@@ -6,8 +6,9 @@ A microservice-based e-commerce platform built with Spring Boot 3.3.4 and Gradle
 - **api**: Shared interfaces and DTOs for service communication.
 - **utils**: Common utility classes and helpers.
 - **product-service**: Product management microservice.
-- **recommendation-service**: Recommendation engine microservice.
 - **review-service**: Review and rating microservice.
+- **product-composite-service**: API composition service that aggregates product and review data.
+- **recommendation-service**: Recommendation engine microservice.
 
 ## Build & Run
 - Build all modules: `./gradlew buildAll`
@@ -39,18 +40,29 @@ A microservice-based e-commerce platform built with Spring Boot 3.3.4 and Gradle
 - ✅ **Docker Support**: Multi-stage Dockerfile with MySQL database integration
 - ✅ **Health Checks**: Spring Boot Actuator integration
 
+### 🎯 **Product-Composite Service - Complete Implementation**
+- ✅ **API Composition Pattern**: Aggregates product data with reviews in single response
+- ✅ **Service Integration**: Seamless communication with Product and Review services
+- ✅ **Reactive Architecture**: Pure WebFlux stack for high-performance async operations
+- ✅ **Unified Error Handling**: Consistent 404/422 responses across all endpoints
+- ✅ **RestTemplate Integration**: HTTP client for service-to-service communication
+- ✅ **Docker Support**: Containerized deployment on port 8082
+- ✅ **Health Checks**: Spring Boot Actuator integration
+
 ### 🐳 **Docker & Containerization**
-- ✅ **Docker Compose**: Complete orchestration with MongoDB, MySQL, Product & Review Services
+- ✅ **Docker Compose**: Complete orchestration with MongoDB, MySQL, and all three microservices
 - ✅ **Service Dependencies**: Proper health checks and service startup ordering
-- ✅ **Port Configuration**: Product Service (8080), Review Service (8081), MongoDB (27017), MySQL (3306)
+- ✅ **Port Configuration**: Product Service (8080), Review Service (8081), Product-Composite (8082), MongoDB (27017), MySQL (3306)
 - ✅ **Volume Persistence**: Database data persistence across container restarts
 - ✅ **Multi-Database Support**: MongoDB for products, MySQL for reviews
 
 ### 🧪 **Testing Infrastructure**
-- ✅ **Comprehensive API Testing**: 12 microservice test scenarios covering all validation logic
+- ✅ **Comprehensive API Testing**: 18 microservice test scenarios covering all three services
 - ✅ **Edge Case Testing**: Unicode, special characters, boundary values, error conditions
-- ✅ **Automated Test Suite**: `test-microservices-api.sh` with detailed reporting for both services
-- ✅ **Integration Testing**: Product-Review service integration validation
+- ✅ **Automated Test Suite**: `test-microservices-api.sh` with detailed reporting for all services
+- ✅ **Integration Testing**: Product-Review service integration and composite service validation
+- ✅ **Composite Service Testing**: Multi-review scenarios and service aggregation validation
+- ✅ **Postman Collection**: Complete API collection with automated testing and validation
 - ✅ **Duplicate Prevention**: Unique constraint testing with proper error handling
 
 ### 🏗️ **Architecture Enhancements**
@@ -68,9 +80,10 @@ A microservice-based e-commerce platform built with Spring Boot 3.3.4 and Gradle
 |-----------|--------|----------|
 | **Product Service** | ✅ **PRODUCTION READY** | Full CRUD, MongoDB, Docker, Testing |
 | **Review Service** | ✅ **PRODUCTION READY** | Full CRUD, MySQL, Docker, Testing, Rating Validation |
-| **API Module** | ✅ **COMPLETE** | Shared interfaces, DTOs, REST contracts |
-| **Docker Compose** | ✅ **READY** | Multi-service orchestration with MongoDB & MySQL |
-| **Testing Suite** | ✅ **COMPREHENSIVE** | 12 test scenarios, edge cases, integration testing |
+| **Product-Composite Service** | ✅ **PRODUCTION READY** | API Composition, Service Integration, Reactive Architecture |
+| **API Module** | ✅ **COMPLETE** | Shared interfaces, DTOs, REST contracts, Composite APIs |
+| **Docker Compose** | ✅ **READY** | Three-service orchestration with MongoDB & MySQL |
+| **Testing Suite** | ✅ **COMPREHENSIVE** | 18 test scenarios, composite testing, Postman collection |
 | **MongoDB Integration** | ✅ **COMPLETE** | Auto-indexing, persistence, health checks |
 | **MySQL Integration** | ✅ **COMPLETE** | JPA, schema generation, proper column definitions |
 | **Recommendation Service** | 🔄 **BASIC SETUP** | Ready for ML integration |
@@ -88,7 +101,10 @@ docker-compose up -d
 ./test-microservices-api.sh
 
 # 4. Manual testing
-curl http://localhost:8080/actuator/health
+curl http://localhost:8080/actuator/health     # Product Service
+curl http://localhost:8081/actuator/health     # Review Service  
+curl http://localhost:8082/actuator/health     # Product-Composite Service
+curl http://localhost:8082/product-composite/1 # Get aggregated product data
 ```
 
 ---
@@ -109,6 +125,11 @@ This application follows a microservices pattern with three core services:
   - Port: 8081 (containerized with Docker)
   - Database: MySQL (port 3306)
   - Status: ✅ **FULLY IMPLEMENTED** - Production-ready with CRUD operations, rating validation (0-10), MySQL persistence, and comprehensive testing
+
+- **product-composite-service**: Aggregates product and review data using API Composition pattern
+  - Port: 8082 (containerized with Docker)
+  - Integration: Calls Product Service (8080) and Review Service (8081)
+  - Status: ✅ **FULLY IMPLEMENTED** - Production-ready with reactive architecture, unified error handling, and comprehensive testing
   
 - **recommendation-service**: Provides AI-powered product recommendations
   - Port: Default Spring Boot (8080) 
@@ -372,17 +393,24 @@ review-service: ✅ IMPLEMENTED
 ├── POST   /review                    # ✅ Submit review with validation
 └── DELETE /review?productId={id}     # ✅ Delete reviews by product
 
+product-composite-service: ✅ IMPLEMENTED
+├── GET    /product-composite/{id}    # ✅ Get product with aggregated reviews
+├── POST   /product-composite         # ✅ Create product (delegates to product-service)
+└── DELETE /product-composite/{id}    # ✅ Delete product and reviews
+
 recommendation-service: 🚧 PENDING
 ├── GET    /api/v1/recommendations/{userId}     # Get user recommendations
 ├── POST   /api/v1/recommendations/similar     # Similar products
 └── POST   /api/v1/recommendations/retrain     # Retrain ML model
 ```
 
-### Phase 2: Integration & Deployment ✅ PARTIALLY COMPLETED
+### Phase 2: Integration & Deployment ✅ COMPLETED
 - [x] ~~Database integration~~ ✅ MongoDB & MySQL integration complete
-- [x] ~~Docker containerization~~ ✅ Complete multi-service Docker deployment
-- [x] **Integration Testing**: Product-Review service integration validated
-- [ ] Service communication (OpenFeign/RestTemplate) - beyond current integration
+- [x] ~~Docker containerization~~ ✅ Complete three-service Docker deployment
+- [x] ~~Integration Testing~~ ✅ Product-Review service integration validated
+- [x] ~~Service communication~~ ✅ RestTemplate-based service-to-service communication implemented
+- [x] ~~API Composition~~ ✅ Product-Composite service aggregates data from both services
+- [x] ~~Comprehensive Testing~~ ✅ 18-scenario test suite with Postman collection
 - [ ] Python ML model integration via REST API
 - [ ] Kubernetes deployment manifests
 
@@ -414,20 +442,24 @@ recommendation-service: 🚧 PENDING
 ### **Architecture Excellence**
 - ✅ **Clean Package Structure**: Organized controllers, services, mappers, and persistence layers
 - ✅ **Separation of Concerns**: Clear boundaries between HTTP, business logic, and data layers
-- ✅ **MapStruct Integration**: Efficient entity-to-DTO mapping for both services
-- ✅ **Standard Spring Boot Structure**: Follows industry best practices for microservices
+- ✅ **MapStruct Integration**: Efficient entity-to-DTO mapping across all services
+- ✅ **API Composition Pattern**: Product-Composite service implements industry-standard aggregation
+- ✅ **Interface-Based Architecture**: Service contracts promote loose coupling
+- ✅ **Reactive Architecture**: Pure WebFlux stack for high-performance async operations
 
 ### **Testing Excellence**
-- ✅ **12 Test Scenarios**: Comprehensive validation of both Product & Review services
-- ✅ **Integration Testing**: Product-Review service integration validation
-- ✅ **Edge Case Coverage**: Rating validation, long text handling, error scenarios
+- ✅ **18 Test Scenarios**: Comprehensive validation across all three services
+- ✅ **Integration Testing**: Multi-service integration and composite service validation
+- ✅ **Edge Case Coverage**: Rating validation, long text handling, error scenarios, multi-review aggregation
 - ✅ **Automated Testing**: Single command execution with detailed reporting
+- ✅ **Postman Collection**: Complete API collection with automated validation scripts
 
 ### **Production-Ready Infrastructure**
 - ✅ **Multi-Database Architecture**: MongoDB for products, MySQL for reviews
-- ✅ **Docker Orchestration**: Complete multi-service deployment
-- ✅ **Health Monitoring**: Spring Boot Actuator integration
-- ✅ **Service Isolation**: Proper port separation and dependency management
+- ✅ **Three-Service Orchestration**: Complete Docker deployment with service dependencies
+- ✅ **Health Monitoring**: Spring Boot Actuator integration across all services
+- ✅ **Service Isolation**: Proper port separation (8080, 8081, 8082) and dependency management
+- ✅ **Unified Error Handling**: Consistent 404/422 responses across all services
 
 ## License
 

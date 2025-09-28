@@ -3,8 +3,7 @@ rootProject.name = 'ragav-ecommerce-sass-application'
 // Include shared modules
 include 'api'
 include 'utils'
-
-// Include all microservices as subprojects
 include 'product-service'
-include 'recommendation-service'
 include 'review-service'
+include 'recommendation-service'
+include 'product-composite-service'

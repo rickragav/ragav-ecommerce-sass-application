@@ -7,7 +7,9 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mapstruct/mapstruct-processor/1.5.3.Final/dce418bedafd71ff8dd2cef15006c0fee788b073/mapstruct-processor-1.5.3.Final.jar" />
         </processorPath>
+        <module name="ragav-ecommerce-sass-application.product-composite-service.main" />
         <module name="ragav-ecommerce-sass-application.product-service.main" />
+        <module name="ragav-ecommerce-sass-application.product-composite-service.test" />
         <module name="ragav-ecommerce-sass-application.product-service.test" />
         <module name="ragav-ecommerce-sass-application.review-service.main" />
         <module name="ragav-ecommerce-sass-application.review-service.test" />
@@ -20,6 +22,12 @@
       <module name="ragav-ecommerce-sass-application.api" options="-parameters" />
       <module name="ragav-ecommerce-sass-application.api.main" options="-parameters" />
       <module name="ragav-ecommerce-sass-application.api.test" options="-parameters" />
+      <module name="ragav-ecommerce-sass-application.product-catalog-service" options="-parameters" />
+      <module name="ragav-ecommerce-sass-application.product-catalog-service.main" options="-parameters" />
+      <module name="ragav-ecommerce-sass-application.product-catalog-service.test" options="-parameters" />
+      <module name="ragav-ecommerce-sass-application.product-composite-service" options="-parameters" />
+      <module name="ragav-ecommerce-sass-application.product-composite-service.main" options="-parameters" />
+      <module name="ragav-ecommerce-sass-application.product-composite-service.test" options="-parameters" />
       <module name="ragav-ecommerce-sass-application.product-service" options="-parameters" />
       <module name="ragav-ecommerce-sass-application.product-service.main" options="-parameters" />
       <module name="ragav-ecommerce-sass-application.product-service.test" options="-parameters" />

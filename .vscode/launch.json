@@ -19,6 +19,16 @@
             "projectName": "product-service",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ProductCompositeServiceApplication<product-composite-service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.ragav.ecommerce.product_composite_service.ProductCompositeServiceApplication",
+            "projectName": "product-composite-service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
