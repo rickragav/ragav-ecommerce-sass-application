@@ -17,6 +17,10 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    springBootVersion = '3.0.4'
+}
+
 dependencies {
 
     // Common annotations and validation
@@ -27,7 +31,7 @@ dependencies {
     compileOnly 'org.springframework:spring-web'
 
     // Use Spring Boot BOM for dependency management
-    implementation platform("org.springframework.boot:spring-boot-dependencies")    
+    implementation platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
     
     
     // Testing

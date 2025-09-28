@@ -1,0 +1,35 @@
+# Default application configuration
+server:
+  port: 8080
+  error:
+    include-message: always
+
+# MongoDB configuration (for local development)
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: product-db
+      auto-index-creation: true
+
+# Logging configuration
+logging:
+  level:
+    root: INFO
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    com.ragav.ecommerce: DEBUG
+
+---
+# Profile-specific configuration for Docker
+spring:
+  config:
+    activate:
+      on-profile: docker
+  data:
+    mongodb:
+      host: mongodb
+      port: 27017
+      database: product-db
+      auto-index-creation: true
+
