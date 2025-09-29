@@ -45,7 +45,7 @@ public class Review {
      */
     @NotNull
 
-    private int userId;
+    private Integer userId;
 
     /**
      * Tenant identifier for multi-tenant SaaS architecture.
@@ -130,7 +130,7 @@ public class Review {
      * @param reviewTitle Optional review headline/summary
      * @param status      Review lifecycle status (default: ACTIVE)
      */
-    public Review(String reviewId, String productId, int userId, String tenantId, int rating, String reviewText,
+    public Review(String reviewId, String productId, Integer userId, String tenantId, int rating, String reviewText,
             String reviewTitle, ReviewStatus status) {
         this.reviewId = reviewId;
         this.productId = productId;
@@ -181,20 +181,15 @@ public class Review {
     }
 
     /**
-     * Returns the user ID who created the review.
+     * Returns the user ID of the reviewer.
      * 
      * @return userId Integer reference to the reviewing user
      */
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    /**
-     * Sets the user ID who created the review.
-     * 
-     * @param userId Integer reference to the reviewing user
-     */
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

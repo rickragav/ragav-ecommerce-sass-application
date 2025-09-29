@@ -30,6 +30,19 @@ public class ProductCompositeController implements ProductCompositeService {
     }
 
     /**
+     * Create a new product aggregate.
+     * 
+     * @param body the product aggregate to create
+     * 
+     */
+
+    @Override
+    public void createProduct(ProductAggregate body) {
+        LOG.debug("ProductCompositeController.createProduct: {}", body);
+        productCompositeServiceImpl.createProduct(body);
+    }
+
+    /**
      * Get a product aggregate.
      * 
      * @param productId ID of the product

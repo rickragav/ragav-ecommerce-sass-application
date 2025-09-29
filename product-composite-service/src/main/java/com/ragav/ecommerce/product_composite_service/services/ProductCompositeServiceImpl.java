@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ragav.ecommerce.api.composite.product.ProductAggregate;
@@ -13,6 +12,8 @@ import com.ragav.ecommerce.api.composite.product.ReviewSummary;
 import com.ragav.ecommerce.api.composite.product.ServiceAddresses;
 import com.ragav.ecommerce.api.core.product.Product;
 import com.ragav.ecommerce.api.core.review.Review;
+import com.ragav.ecommerce.api.core.review.ReviewStatus;
+import com.ragav.ecommerce.api.exceptions.BadRequestException;
 import com.ragav.ecommerce.api.exceptions.NotFoundException;
 import com.ragav.ecommerce.utils.http.ServiceUtil;
 
@@ -24,10 +25,54 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
     private final ServiceUtil serviceUtil;
     private ProductCompositeIntegration integration;
 
-    @Autowired
     public ProductCompositeServiceImpl(ServiceUtil serviceUtil, ProductCompositeIntegration integration) {
         this.serviceUtil = serviceUtil;
         this.integration = integration;
+    }
+
+    @Override
+    public void createProduct(ProductAggregate body) {
+        try {
+            LOG.debug("createCompositeProduct: create a new composite product {}", body);
+
+            Product product = new Product(
+                    body.getProductId(),
+                    body.getName(),
+                    null,
+                    body.getPrice(),
+                    body.getStockQuantity(),
+                    body.getStatus(),
+                    body.getTenantId(),
+                    body.getImageUrlSmall(),
+                    body.getImageUrlMedium(),
+                    body.getImageUrlLarge());
+            LOG.debug("createCompositeProduct: create a new product entity: {}",
+                    product);
+
+            integration.createProduct(product);
+
+            if (body.getReviews() != null) {
+                body.getReviews().forEach(r -> {
+                    Review review = new Review(
+
+                            r.getReviewId(),
+                            String.valueOf(body.getProductId()),
+                            12, // dummy userId for now
+                            body.getTenantId(),
+                            r.getRating(),
+                            r.getReviewContent(),
+                            r.getReviewTitle(),
+                            ReviewStatus.ACTIVE);
+                    integration.createReview(review);
+                });
+
+            }
+
+            LOG.debug("createCompositeProduct: composite entity created for productId:{}", body.getProductId());
+        } catch (Exception e) {
+            throw new BadRequestException("Invalid request: " + e.getMessage());
+        }
+
     }
 
     @Override
@@ -81,7 +126,18 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
         ServiceAddresses serviceAddresses = new ServiceAddresses(
                 serviceAddress, productAddress, reviewAddress);
 
-        return new ProductAggregate(productId, name, reviewSummaries, serviceAddresses);
+        return new ProductAggregate(
+                productId,
+                name,
+                reviewSummaries,
+                serviceAddresses,
+                product.getPrice(),
+                product.getStockQuantity(),
+                product.getStatus(),
+                product.getTenantId(),
+                product.getImageUrlSmall(),
+                product.getImageUrlMedium(),
+                product.getImageUrlLarge());
     }
 
 }

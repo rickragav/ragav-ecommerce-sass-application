@@ -53,7 +53,18 @@ public class ProductCompositeIntegration implements ProductService, ReviewServic
 
     @Override
     public Product createProduct(Product body) {
-        throw new UnsupportedOperationException("Unimplemented method 'createProduct'");
+        try {
+            String url = productServiceUrl;
+            LOG.debug("Will post a new product to createProductApi: {}", url);
+
+            Product product = restTemplate.postForObject(url, body, Product.class);
+            LOG.debug("Created a product with productId: {}", product.getProductId());
+
+            return product;
+        } catch (HttpClientErrorException ex) {
+            LOG.warn("Got an exception while calling getProduct API: {}", ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
     }
 
     @Override
@@ -95,8 +106,19 @@ public class ProductCompositeIntegration implements ProductService, ReviewServic
 
     @Override
     public Review createReview(Review body) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createReview'");
+        try {
+            String url = reviewServiceUrl;
+            LOG.debug("Will post a new review to createReview API: {}", url);
+
+            Review review = restTemplate.postForObject(url, body, Review.class);
+            LOG.debug("Created a review with reviewId: {}", review.getReviewId());
+
+            return review;
+        } catch (HttpClientErrorException ex) {
+            LOG.warn("Got an exception while calling createReview API: {}", ex.getMessage());
+            throw handleHttpClientException(ex);
+
+        }
     }
 
     @Override

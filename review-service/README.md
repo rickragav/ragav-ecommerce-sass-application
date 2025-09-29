@@ -2,7 +2,13 @@
 
 A fully-implemented microservice that handles product reviews, ratings, and user feedback for the Ragav E-commerce SaaS Application. This service provides comprehensive CRUD operations with robust validation, MySQL persistence, and Docker containerization.
 
-## 🚀 **Status: PRODUCTION READY**
+## 🚀 **Status: PRODUCTION READY** (Week 1 Complete)
+
+## 📅 **Week 2 Updates**
+- ✅ **Enhanced Data Model**: Changed userId from int to Integer for nullable support
+- ✅ **Better Composite Integration**: Improved compatibility with Product-Composite Service
+- ✅ **Flexible User Handling**: Support for nullable user IDs in review creation
+- ✅ **Centralized Logging**: File-based logging with persistent storage
 
 ## ✅ **Implemented Features**
 

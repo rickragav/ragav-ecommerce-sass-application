@@ -2,8 +2,6 @@ package com.ragav.ecommerce.product_service.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ragav.ecommerce.api.core.product.Product;
@@ -46,7 +44,7 @@ public class ProductServiceController implements ProductService {
      * @return Created product with service address populated
      */
     @Override
-    public Product createProduct(@RequestBody Product body) {
+    public Product createProduct(Product body) {
         LOG.debug("ProductServiceController.createProduct: {}", body);
         return productService.createProduct(body);
     }
@@ -61,7 +59,7 @@ public class ProductServiceController implements ProductService {
      * @return Product with the specified productId
      */
     @Override
-    public Product getProduct(@PathVariable int productId) {
+    public Product getProduct(int productId) {
         LOG.debug("ProductServiceController.getProduct: productId={}", productId);
         return productService.getProduct(productId);
     }
@@ -75,7 +73,7 @@ public class ProductServiceController implements ProductService {
      * @param productId ID of the product to delete
      */
     @Override
-    public void deleteProduct(@PathVariable int productId) {
+    public void deleteProduct(int productId) {
         LOG.debug("ProductServiceController.deleteProduct: productId={}", productId);
         productService.deleteProduct(productId);
     }

@@ -9,10 +9,13 @@
 # Configuration
 PRODUCT_BASE_URL="http://localhost:8080"
 REVIEW_BASE_URL="http://localhost:8081"
+PRODUCT_COMPOSITE_BASE_URL="http://localhost:8082"
 PRODUCT_API_URL="$PRODUCT_BASE_URL/product"
 REVIEW_API_URL="$REVIEW_BASE_URL/review"
+PRODUCT_COMPOSITE_API_URL="$PRODUCT_COMPOSITE_BASE_URL/product-composite"
 PRODUCT_HEALTH_URL="$PRODUCT_BASE_URL/actuator/health"
 REVIEW_HEALTH_URL="$REVIEW_BASE_URL/actuator/health"
+PRODUCT_COMPOSITE_HEALTH_URL="$PRODUCT_COMPOSITE_BASE_URL/actuator/health"
 
 # Colors for output
 RED='\033[0;31m'
@@ -398,6 +401,174 @@ test_get_reviews_by_product() {
 }
 
 # ====================================================================
+# PRODUCT COMPOSITE SERVICE TESTS
+# ====================================================================
+
+test_product_composite_health_check() {
+    increment_test
+    print_test $TOTAL_TESTS "Product Composite Service Health Check"
+    
+    local response=$(curl -s -w "%{http_code}" -o /dev/null "$PRODUCT_COMPOSITE_HEALTH_URL")
+    
+    if [ "$response" -eq 200 ]; then
+        print_success "Product composite service health check passed (HTTP 200)"
+    else
+        print_error "Product composite service health check failed (HTTP $response)" "Product Composite Health Check"
+    fi
+}
+
+test_create_product_composite_full() {
+    increment_test
+    print_test $TOTAL_TESTS "Create Complete Product Composite"
+    
+    local json_payload='{
+        "productId": 9999,
+        "name": "Composite Test Product",
+        "price": 299.99,
+        "stockQuantity": 50,
+        "status": "AVAILABLE",
+        "tenantId": "tenant-composite",
+        "imageUrlSmall": "https://example.com/small.jpg",
+        "imageUrlMedium": "https://example.com/medium.jpg",
+        "imageUrlLarge": "https://example.com/large.jpg",
+        "reviews": [
+            {
+                "reviewId": "composite-review-1",
+                "rating": 9,
+                "reviewContent": "Amazing product created via composite service!",
+                "reviewTitle": "Excellent Composite"
+            },
+            {
+                "reviewId": "composite-review-2", 
+                "rating": 8,
+                "reviewContent": "Great experience with this composite product.",
+                "reviewTitle": "Good Quality"
+            }
+        ],
+        "serviceAddresses": null
+    }'
+    
+    local response=$(curl -s -w "%{http_code}" \
+        -H "Content-Type: application/json" \
+        -X POST \
+        -d "$json_payload" \
+        -o /tmp/composite_create_response.txt \
+        "$PRODUCT_COMPOSITE_API_URL")
+    
+    if [ "$response" -eq 200 ]; then
+        print_success "Complete product composite created successfully (HTTP 200)"
+        local response_body=$(cat /tmp/composite_create_response.txt)
+        print_info "Response: $response_body"
+    else
+        local error_response=$(cat /tmp/composite_create_response.txt)
+        print_error "Failed to create product composite (HTTP $response)" "Create Product Composite"
+        print_info "Error: $error_response"
+    fi
+    
+    rm -f /tmp/composite_create_response.txt
+}
+
+test_create_product_composite_minimal() {
+    increment_test
+    print_test $TOTAL_TESTS "Create Minimal Product Composite"
+    
+    local json_payload='{
+        "productId": 8888,
+        "name": "Minimal Composite Product",
+        "price": 99.99,
+        "stockQuantity": 10,
+        "status": "AVAILABLE",
+        "tenantId": "tenant-minimal",
+        "reviews": [],
+        "serviceAddresses": null
+    }'
+    
+    local response=$(curl -s -w "%{http_code}" \
+        -H "Content-Type: application/json" \
+        -X POST \
+        -d "$json_payload" \
+        -o /tmp/composite_minimal_response.txt \
+        "$PRODUCT_COMPOSITE_API_URL")
+    
+    if [ "$response" -eq 200 ]; then
+        print_success "Minimal product composite created successfully (HTTP 200)"
+        local response_body=$(cat /tmp/composite_minimal_response.txt)
+        print_info "Response: $response_body"
+    else
+        local error_response=$(cat /tmp/composite_minimal_response.txt)
+        print_error "Failed to create minimal product composite (HTTP $response)" "Create Minimal Composite"
+        print_info "Error: $error_response"
+    fi
+    
+    rm -f /tmp/composite_minimal_response.txt
+}
+
+test_get_product_composite() {
+    increment_test
+    print_test $TOTAL_TESTS "Get Product Composite with Enhanced Fields"
+    
+    # First try to get the existing product created in earlier tests
+    local existing_product_id=8343  # Use the product created in test 2
+    local response=$(curl -s -w "%{http_code}" \
+        -o /tmp/get_composite_response.txt \
+        "$PRODUCT_COMPOSITE_API_URL/$existing_product_id")
+    
+    if [ "$response" -eq 200 ]; then
+        print_success "Retrieved product composite successfully (HTTP 200)"
+        local response_body=$(cat /tmp/get_composite_response.txt)
+        print_info "Response: $response_body"
+        
+        # Verify enhanced fields are present (they might be null for existing basic products)
+        if echo "$response_body" | grep -q '"productId"' && \
+           echo "$response_body" | grep -q '"name"' && \
+           echo "$response_body" | grep -q '"status"'; then
+            print_success "Enhanced ProductAggregate structure verified"
+        else
+            print_error "ProductAggregate structure missing required fields" "Structure Check"
+        fi
+    else
+        local error_response=$(cat /tmp/get_composite_response.txt)
+        print_error "Failed to get product composite (HTTP $response)" "Get Product Composite"
+        print_info "Error: $error_response"
+    fi
+    
+    rm -f /tmp/get_composite_response.txt
+}
+
+test_invalid_product_composite() {
+    increment_test
+    print_test $TOTAL_TESTS "Invalid Product Composite (Negative Product ID)"
+    
+    local json_payload='{
+        "productId": -1,
+        "name": "Invalid Product",
+        "price": 50.00,
+        "stockQuantity": 5,
+        "status": "AVAILABLE",
+        "tenantId": "tenant-invalid",
+        "reviews": [],
+        "serviceAddresses": null
+    }'
+    
+    local response=$(curl -s -w "%{http_code}" \
+        -H "Content-Type: application/json" \
+        -X POST \
+        -d "$json_payload" \
+        -o /tmp/invalid_composite_response.txt \
+        "$PRODUCT_COMPOSITE_API_URL")
+    
+    if [ "$response" -eq 400 ] || [ "$response" -eq 422 ]; then
+        print_success "Correctly rejected invalid product composite (HTTP $response)"
+        local response_body=$(cat /tmp/invalid_composite_response.txt)
+        print_info "Error Response: $response_body"
+    else
+        print_error "Should have rejected invalid product composite (HTTP $response)" "Invalid Composite Validation"
+    fi
+    
+    rm -f /tmp/invalid_composite_response.txt
+}
+
+# ====================================================================
 # INTEGRATION TESTS
 # ====================================================================
 
@@ -429,9 +600,10 @@ test_product_review_integration() {
 # Main test execution
 main() {
     print_header "Ragav E-commerce SaaS - Comprehensive Microservices API Test Suite"
-    print_info "Testing Product Service & Review Service"
+    print_info "Testing Product Service, Review Service & Product Composite Service"
     print_info "Product Service URL: $PRODUCT_BASE_URL"
     print_info "Review Service URL: $REVIEW_BASE_URL"
+    print_info "Product Composite Service URL: $PRODUCT_COMPOSITE_BASE_URL"
     echo ""
     
     # Wait for services
@@ -442,6 +614,10 @@ main() {
     fi
     
     if ! wait_for_service "Review Service" "$REVIEW_HEALTH_URL"; then
+        services_ready=false
+    fi
+    
+    if ! wait_for_service "Product Composite Service" "$PRODUCT_COMPOSITE_HEALTH_URL"; then
         services_ready=false
     fi
     
@@ -470,6 +646,16 @@ main() {
     test_invalid_review_rating_negative
     test_review_with_long_text
     test_get_reviews_by_product
+    
+    echo ""
+    
+    # Run Product Composite Service Tests
+    print_service_header "Product Composite Service Tests"
+    test_product_composite_health_check
+    test_create_product_composite_full
+    test_create_product_composite_minimal
+    test_get_product_composite
+    test_invalid_product_composite
     
     echo ""
     
